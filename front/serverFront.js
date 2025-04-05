@@ -1,2 +1,7 @@
-const FRONT_PORT = process.FRONT_PORT || 3000;
-console.log(`Front server working on port ${ FRONT_PORT }`);
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const PORT = process.env.PORT_FRONT || 4000;
+
+console.log(`frontEnd server working on http://localhost:${PORT}`);

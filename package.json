@@ -2,7 +2,7 @@
   "name": "projetecf",
   "version": "1.0.0",
   "description": "projetECF: QuoiFaire - first commit - package.json",
-  "main": "index.js",
+  "main": "./front/serverFront.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
