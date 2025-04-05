@@ -1,2 +1,2 @@
 project ECF: QuoiFaire
-gitHub repository: https://github.com/marcosmanzanarescampo/projetECF.git
+noition: https://www.notion.so/Projet-QuoiFaire-1cc09b6ad822803c8396c5d84fbbd019
