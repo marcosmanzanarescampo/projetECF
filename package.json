@@ -1,0 +1,45 @@
+{
+  "name": "projetecf",
+  "version": "1.0.0",
+  "description": "projetECF: QuoiFaire - first commit - package.json",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:front": "node --watch ./front/serverFront.js",
+    "dev:back": "node --watch ./back/serverBack",
+    "start:front": "node ./front/serverFront.js",
+    "start:back": " node ./back/serverBack.js",
+    "commit": "git cz",
+    "prettier": "Prettier --write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcosmanzanarescampo/projetECF.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcosmanzanarescampo/projetECF/issues"
+  },
+  "homepage": "https://github.com/marcosmanzanarescampo/projetECF#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.6",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
