@@ -8,8 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:front": "node --watch ./front/serverFront.js",
     "dev:back": "node --watch ./back/serverBack",
-    "start:front": "node ./front/serverFront.js",
-    "start:back": " node ./back/serverBack.js",
+    "start": "node index.js",
     "commit": "git cz",
     "prettier": "Prettier --write"
   },
@@ -25,8 +24,10 @@
   },
   "homepage": "https://github.com/marcosmanzanarescampo/projetECF#readme",
   "dependencies": {
+    "@prisma/client": "^6.5.0",
     "dotenv": "^16.4.7",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "prisma": "^6.5.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",

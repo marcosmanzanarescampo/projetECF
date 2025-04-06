@@ -1,0 +1,143 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  html, body {
+    height: 100%;
+    width: 100%;
+  }
+  
+  /* Partie principale plein écran avec dégradé bleu-vert */
+  .main-content {
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(to right, #00b3b3, #007bb5); /* Dégradé bleu-vert */
+    padding: 60px;
+  }
+  
+  /* Formulaire flottant */
+  .floating-form {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    width: 300px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 1000;
+  }
+  
+  /* Formulaire */
+  .form-container h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    text-align: left;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  html, body {
+    height: 100%;
+    width: 100%;
+  }
+  
+  /* Partie principale plein écran avec dégradé bleu-vert */
+  .main-content {
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(to right, #00b3b3, #007bb5); /* Dégradé bleu-vert */
+    padding: 60px;
+  }
+  
+  /* Formulaire flottant */
+  .floating-form {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    width: 300px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 1000;
+  }
+  
+  /* Formulaire */
+  .form-container h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    text-align: left;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+    
