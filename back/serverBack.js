@@ -1,16 +1,20 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import routes from "../routes/routes.js"
+import router from "../routes/routes.js"
 import cors from 'cors';
 
-const PORT = process.env.PORT_BACK || 3000;
+// const PORT = process.env.PORT_BACK || 3000;
+const PORT = 3000;
+
+const app = express();
 
 dotenv.config();
-const app = express();
+
+// middlewares
 app.use(cors());
 
-routes();
+app.use('/api', router); // optionnel : préfixe "api", ex: /api/auth/login
 
-app.listen(PORT, () => {
-  // console.log(`backend working on http://localhost:${PORT}`);
-});
+app.listen(PORT);
+
+console.log('server working on port ' + PORT);
