@@ -24,10 +24,6 @@ const server = http.createServer(async (req, res) => {
     // Déterminer le fichier à servir
     let filePath = path.join(__dirname, req.url === "/" ? "index.html" : req.url);
 
-    console.log("file: " + filePath);
-
-    console.log("fichero: " + filePath);
-
     // Déterminer le type MIME
     const extname = path.extname(filePath);
     const contentType = MIME_TYPES[extname] || "text/plain";

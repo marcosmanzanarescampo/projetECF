@@ -10,7 +10,9 @@
     "dev:back": "node --watch ./back/serverBack",
     "start": "node index.js",
     "commit": "git cz",
-    "prettier": "Prettier --write"
+    "prettier": "Prettier --write",
+    "db:migrate": "npx prisma migrate dev init",
+    "db:view": "npx prisma studio"
   },
   "repository": {
     "type": "git",
@@ -25,6 +27,7 @@
   "homepage": "https://github.com/marcosmanzanarescampo/projetECF#readme",
   "dependencies": {
     "@prisma/client": "^6.5.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
     "prisma": "^6.5.0"
