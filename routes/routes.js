@@ -1,11 +1,9 @@
-import  express  from "express";
-import  authRoutes from "./auth.routes.js";
+import  { Router }  from "express";
+import  userRoutes from './user.routes.js';
 
-const ROUTE = process.env.ROUTE_USER;
-
-const router = express.Router();
+const router = Router();
 
 // user routes
-router.use('/auth', authRoutes);
+router.use(userRoutes);
 
 export default router;
