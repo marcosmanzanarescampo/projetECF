@@ -12,17 +12,16 @@ const userServices = {
         return userCreated;
     },
 
-    userSignInService: async (user) {
-
-      const email = user.user_email;  
-      const userSearched = await userSearchService(email);
+    userSignInService: async (user) => {
+      const email = user.user_email;
+      const userSearched = await userRepository.userSearchService(email);
 
       if (!userSearched) {
         console.log("SignIn error: User does not exist");
         return { success: 0, message: "Signin error: user does not exist" };
       };
 
-      let loginValide = await bcrypt.compare(userSearched.user_password, body.user_password); // validation du password
+      let loginValide = await bcrypt.compare(userSearched.user_password, user.user_password); // validation du password
 
       loginValide = true; // triche pour pouvoir continuer...      
 
@@ -39,12 +38,10 @@ const userServices = {
         email: user.user_email,
         badge: user.user_badge
       }
-  //     const token = jwt.sign(payload, secret, { expiresIn: '1h' });  //token expires en 1 heure!
-  //     return res.status(200).json({
-  //     success: 1,
-  //     message: "SignIn ok",
-  //     token: token
-  //     });
+
+      // bonus:
+      const token = jwt.sign(payload, secret, { expiresIn: '1h' });  //token expires en 1 heure!
+      return ({ success: 1, message: "signIn ok", data: token });
     }
 };
 

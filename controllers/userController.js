@@ -12,7 +12,7 @@ const userController = {
       const user = req.body;
       const result = await userServices.userSignInService(user);
 
-      return res.json( { success: result.success, message: result.message, token: result.data }).status(201);
+      return res.json(result).status(201);
     } catch (error) {
       console.error("Erreur interne (userLoginController):", error);
       res.status(500).json({
