@@ -10,7 +10,11 @@ const userController = {
       const user = req.body;
       const result = await userServices.userSignInService(user);
 
-      return res.json(result).status(201);
+      if (!result.ok) {
+        return res.json({ ok: 0, message: result.message }).status(201);      
+      }
+
+      return res.json({ ok: 1, message: "SignIn ok", token: result.token }).status(201);
     } catch (error) {
       res.status(500).json({ error: error });
     }

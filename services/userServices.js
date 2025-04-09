@@ -48,13 +48,27 @@ const userServices = {
       return { ok: 1, data: userCreated };
     },
 
-    userSignInService: async (user) => {
-      
+    userSignInService: async (user) => {      
       const email = user.user_email;
+      const password = user.user_password;
+
+      // start of data validation
+      const emailIsOk = validerEmail(email);
+      const passwordIsOk = validerPassword(password);
+
+      if (!emailIsOk) {
+        return { ok: 0, message: "invalid email" };
+      };
+
+      if (!passwordIsOk) {
+        return { ok: 0, message: "invalid password" };
+      };
+      // end of data validation
+
       const userSearched = await userRepository.userSearchRepository(email);
 
       if (!userSearched) {
-        return { success: 0, message: "Signin error: user does not exist" };
+        return { ok: 0, message: "Signin error: user does not exist" };
       };
 
       let loginValide = await bcrypt.compare(userSearched.user_password, user.user_password); // validation du password
@@ -62,8 +76,7 @@ const userServices = {
       loginValide = true; // triche pour pouvoir continuer...
 
       if (!loginValide) {
-        console.log('SignIn error');
-        return { success: 0, message: 'signIn error' };
+        return { ok: 0, message: "Signin error" };
       };
 
   //  Signin success:
@@ -76,7 +89,7 @@ const userServices = {
 
       // bonus:
       const token = jwt.sign(payload, secret, { expiresIn: '1h' });  //token expires en 1 heure!
-      return ({ success: 1, message: "signIn ok", token: token });
+      return ({ ok: 1, message: "signIn ok", token: token });
     }
 };
 
