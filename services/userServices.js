@@ -1,6 +1,9 @@
 import userRepository from "../repository/userRepository.js";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const validerEmail = (email) => {
   if (typeof email !== 'string') {
@@ -15,14 +18,16 @@ function validerPassword(password) {
     return false;
   }
 
-  return password.length > 3;
+  return password.length > 3; //password plus long de 3 characters
 }
 
 const userServices = {
 
     userRegisterService: async (user) => {
-      const user_email = user.user_email;
-      const user_password = user.user_password;
+      console.log("userRegisterService");
+      
+      const user_email = user.email;
+      const user_password = user.password;
 
       // start of data validation
       const emailIsOk = validerEmail(user_email);
@@ -48,9 +53,9 @@ const userServices = {
       return { ok: 1, data: userCreated };
     },
 
-    userSignInService: async (user) => {      
-      const email = user.user_email;
-      const password = user.user_password;
+    userSignInService: async (user) => {
+      const email = user.email;
+      const password = user.password;
 
       // start of data validation
       const emailIsOk = validerEmail(email);
@@ -71,9 +76,7 @@ const userServices = {
         return { ok: 0, message: "Signin error: user does not exist" };
       };
 
-      let loginValide = await bcrypt.compare(userSearched.user_password, user.user_password); // validation du password
-
-      loginValide = true; // triche pour pouvoir continuer...
+      let loginValide = bcrypt.compareSync(password, userSearched.user_password); // validation du password
 
       if (!loginValide) {
         return { ok: 0, message: "Signin error" };
@@ -82,14 +85,13 @@ const userServices = {
   //  Signin success:
       const secret = process.env.JWT_SECRET;
       const payload = {
-        id: user.user_id,
-        email: user.user_email,
-        badge: user.user_badge
+        email: email,
+        password: password
       }
 
       // bonus:
       const token = jwt.sign(payload, secret, { expiresIn: '1h' });  //token expires en 1 heure!
-      return ({ ok: 1, message: "signIn ok", token: token });
+      return { ok: 1, user: payload, token: token };
     }
 };
 

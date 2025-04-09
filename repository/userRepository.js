@@ -7,35 +7,36 @@ import bcrypt from 'bcryptjs';
 
 const userRepository = {
 
-    userSearchRepository: async (email) => {
+   userSearchRepository: async (email) => {
       try {
+        console.log("userSearchRepositoiry");
           const userSearched = await prisma.user.findFirst({
-              where: { user_email: email },
+              where: { user_email: email.toLowerCase() },
             });
             return userSearched;
       }
       catch(error) {
-          throw "Error: erreur interne: " + error;
+          throw "(userSearchRepositoiry) Error: erreur interne: " + error;
       }
   },
 
   userCreateRepository: async (body) => {
     try {
-        const originalPassword = body.user_password;
+        const originalPassword = body.password;
         
         const hashedPassword = await bcrypt.hash(originalPassword, 10); //SALT 10
         const user = await prisma.user.create({
             data: {
-              user_first_name: body.user_first_name,
-              user_name: body.user_name,
-              user_email: body.user_email,
+              user_first_name: body.first_name,
+              user_name: body.name,
+              user_email: body.email.toLowerCase(),
               user_password: hashedPassword,
             }
           });
         return user;
     }
     catch(error) {
-        throw "Error: erreur interne (userRepositoryGetPasswordByEmail): " + error;
+        throw "(userCreateRepository) Error: erreur interne: " + error;
     }
   }
 };

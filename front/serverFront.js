@@ -1,11 +1,11 @@
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 import http from "http";
 import { readFile } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 
 // Charger les variables d'environnement
-dotenv.config();
+// dotenv.config();
 
 // Configuration des chemins
 const __filename = fileURLToPath(import.meta.url);

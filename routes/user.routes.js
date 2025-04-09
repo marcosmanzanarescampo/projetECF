@@ -1,7 +1,7 @@
-import { Router } from "express";
+import express from "express";
 import userController from '../controllers/userController.js';
 
-const router = Router();
+const router = express.Router();
 // const ROUTE = process.env.ROUTE_LOGIN;
 
 // *********************

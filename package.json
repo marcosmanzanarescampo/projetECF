@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:front": "node --watch ./front/serverFront.js",
     "dev:back": "node --watch ./back/serverBack",
-    "start": "node index.js",
+    "start": "concurrently \"node ./front/serverFront.js\" \"node ./back/serverBack.js\"",
     "commit": "git cz",
     "prettier": "Prettier --write",
     "db:migrate": "npx prisma migrate dev init",
@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",
+    "concurrently": "^9.1.2",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.1",

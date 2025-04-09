@@ -8,20 +8,23 @@ const userController = {
   userSignInController: async (req, res) => {
     try {
       const user = req.body;
+
       const result = await userServices.userSignInService(user);
 
       if (!result.ok) {
-        return res.json({ ok: 0, message: result.message }).status(201);      
+        return res.json({ ok: 0, message: result.message }).status(200); //not authorisation      
       }
-
-      return res.json({ ok: 1, message: "SignIn ok", token: result.token }).status(201);
+      // signIn is ok
+      return res.json({ ok: 1, user: result.user.email, message: result.message, token: result.token }).status(201);
     } catch (error) {
-      res.status(500).json({ error: error });
+      res.status(200).json({ error: error.message }); //not authorisation
     }
   },
 
   userRegisterController: async (req, res) => {
     try {
+      console.log("userRegisterController");
+      
       const user = req.body;
       const result = await userServices.userRegisterService(user);
 
@@ -32,7 +35,7 @@ const userController = {
       return res.status(200).json({ success: 1, message: "user registered", data: result.data });
     }
     catch(error) {
-      throw new Error("internal error:" + error);
+      res.status(401).json({ error: "Error: (userRegisterController): " + error.message }); //not authorisation
     }
   }
 }
