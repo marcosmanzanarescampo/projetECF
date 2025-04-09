@@ -10,12 +10,13 @@ const app = express();
 
 dotenv.config();
 
-// middlewares
+// start middlewares
 app.use(cors());
 app.use(express.json());
+// end middlewares
 
+// routes management
 app.use(routes);
 
 app.listen(PORT);
-
 console.log('API server working on port ' + PORT);

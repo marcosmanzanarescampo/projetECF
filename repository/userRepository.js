@@ -15,17 +15,15 @@ const userRepository = {
             return userSearched;
       }
       catch(error) {
-          throw "Error: erreur interne (userRepositoryGetPasswordByEmail): " + error;
+          throw "Error: erreur interne: " + error;
       }
   },
 
   userCreateRepository: async (body) => {
     try {
-        console.log(`hashing password: ${ body.user_password }`);
-        
         const originalPassword = body.user_password;
         
-        const hashedPassword = await bcrypt.hash(originalPassword, 10);
+        const hashedPassword = await bcrypt.hash(originalPassword, 10); //SALT 10
         const user = await prisma.user.create({
             data: {
               user_first_name: body.user_first_name,
