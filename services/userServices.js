@@ -24,8 +24,7 @@ function validerPassword(password) {
 const userServices = {
 
     userRegisterService: async (user) => {
-      console.log("userRegisterService");
-      
+
       const user_email = user.email;
       const user_password = user.password;
 
@@ -73,13 +72,13 @@ const userServices = {
       const userSearched = await userRepository.userSearchRepository(email);
 
       if (!userSearched) {
-        return { ok: 0, message: "Signin error: user does not exist" };
+        return { ok: 0, message: "Signin error: utilisateur inconnu(e)" };
       };
 
       let loginValide = bcrypt.compareSync(password, userSearched.user_password); // validation du password
 
       if (!loginValide) {
-        return { ok: 0, message: "Signin error" };
+        return { ok: 0, message: "Signin error: mot de passe incorrect" };
       };
 
   //  Signin success:
@@ -91,7 +90,7 @@ const userServices = {
 
       // bonus:
       const token = jwt.sign(payload, secret, { expiresIn: '1h' });  //token expires en 1 heure!
-      return { ok: 1, user: payload, token: token };
+      return { ok: 1, user: userSearched, token: token };
     }
 };
 

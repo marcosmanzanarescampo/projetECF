@@ -9,7 +9,6 @@ const userRepository = {
 
    userSearchRepository: async (email) => {
       try {
-        console.log("userSearchRepositoiry");
           const userSearched = await prisma.user.findFirst({
               where: { user_email: email.toLowerCase() },
             });

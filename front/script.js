@@ -1,8 +1,10 @@
+const container = document.getElementById('form-container');
+const welcome = document.getElementById('welcome');
+
 document.addEventListener('DOMContentLoaded', () => {
   
   const loginForm = document.getElementById('signInForm');
   const signInLien = document.getElementById("signInLink");
-  const welcome = document.getElementById('welcome');
 
   signInLien.addEventListener('click', () => {
     // Le formulaire de signIn disparaît et apparaît celui d'enregistremente
@@ -10,39 +12,42 @@ document.addEventListener('DOMContentLoaded', () => {
     creerFormulaireInscription();
   });
   
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault(); // Empêche le rechargement de la page
-  
-      const email = loginForm.email.value;
-      const password = loginForm.password.value;
-  
-      try {
-        const response = await fetch('http://localhost:3000/api/user/signin', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email: email, password: password })
-        });
- 
-        const data = await response.json();
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault(); // Empêche le rechargement de la page
 
-        console.log("reponse reçue: " + data.ok);
+    const email = loginForm.email.value;
+    const password = loginForm.password.value;
+
+    try {
+      const response = await fetch('http://localhost:3000/api/user/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: email, password: password })
+      });
+
+      const data = await response.json();
+
+      if (data.ok) {
+        localStorage.setItem('loggedUserName', data.user.user.user_name);
+        localStorage.setItem('loggedUserFirstName', data.user.user.user_first_name);
+        localStorage.setItem('loggedUserEmail', data.user.user.user_email);
+        localStorage.setItem('loggedUserBadge', data.user.user.user_badge);
+
+        console.log(data.user.user.user_name);
         
-        
-        if (data.ok) {
-          welcome.textContent = `Bienvenu(e) ${data.user }`;
-        } else {
-          console.error(`Erreur: ${data.message || 'Échec de la connexion'}`);
-        }
-      } catch (err) {
-        console.error('Erreur lors de la requête:', err);
+        window.location.replace('/sessionOk');
+      } else {
+        welcome.textContent = `Erreur: ${ data.message } `;
       }
+    } catch (err) {
+      console.error('Erreur lors de la requête:', err);
+    }
   });
 });
 
 function creerFormulaireInscription() {
-  const container = document.getElementById('form-container');
 
   const form = document.createElement('form');
   form.id = 'registrationForm';
@@ -64,6 +69,7 @@ function creerFormulaireInscription() {
 
     div.appendChild(label);
     div.appendChild(input);
+
     return div;
   }
 
@@ -77,8 +83,38 @@ function creerFormulaireInscription() {
   const bouton = document.createElement('button');
   bouton.type = 'submit';
   bouton.textContent = "S'inscrire";
+
+  form.addEventListener('submit', async (e) => {
+    // API registration
+      e.preventDefault(); // Empêche le rechargement de la page
+  
+      try {
+        const formData = new FormData(form);
+        const dataForm = Object.fromEntries(formData.entries());
+
+        const response = await fetch('http://localhost:3000/api/user/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dataForm)
+        });
+ 
+        const data = await response.json();
+        console.log("data result: " + JSON.stringify(data));        
+
+        if (data.ok) {
+          localStorage.setItem('loggedUser', data.user);
+          window.location.replace('/sessionOk')
+        } else {
+          welcome.textContent = `this erreur: ${ data.message } `;
+        }
+      } catch (err) {
+        console.error('Erreur lors de la requête:', err);
+      }
+  });
   form.appendChild(bouton);
 
   // Ajout du formulaire au container
-  container.appendChild(form);
+  container.appendChild(form);    
 };

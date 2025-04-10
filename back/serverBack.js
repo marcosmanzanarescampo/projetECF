@@ -15,9 +15,6 @@ app.use(cors());
 app.use(express.json());
 // end middlewares
 
-console.log("serverBack.js");
-
-
 // routes management
 app.use(routes);
 

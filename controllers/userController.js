@@ -14,25 +14,25 @@ const userController = {
       if (!result.ok) {
         return res.json({ ok: 0, message: result.message }).status(200); //not authorisation      
       }
+
       // signIn is ok
-      return res.json({ ok: 1, user: result.user.email, message: result.message, token: result.token }).status(201);
+      return res.json({ ok: 1, user: result, message: result.message, token: result.token }).status(201);
     } catch (error) {
       res.status(200).json({ error: error.message }); //not authorisation
     }
   },
 
   userRegisterController: async (req, res) => {
-    try {
-      console.log("userRegisterController");
-      
+    try {      
       const user = req.body;
       const result = await userServices.userRegisterService(user);
 
       if(!result.ok) { //-->user not created
-        return res.status(200).json({ success: 0, message: result.message });
+        return res.status(200).json({ ok: 0, message: result.message });
       }
+
       // ok
-      return res.status(200).json({ success: 1, message: "user registered", data: result.data });
+      return res.status(200).json({ ok: 1, message: "user registration succesfully", data: result.data });
     }
     catch(error) {
       res.status(401).json({ error: "Error: (userRegisterController): " + error.message }); //not authorisation

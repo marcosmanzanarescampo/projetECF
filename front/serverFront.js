@@ -22,7 +22,17 @@ const MIME_TYPES = {
 const server = http.createServer(async (req, res) => {
   try {
     // Déterminer le fichier à servir
-    let filePath = path.join(__dirname, req.url === "/" ? "index.html" : req.url);
+    let filePath;
+    if(req.url === "/") {
+      filePath = path.join(__dirname, "index.html");
+    }
+    else
+      if(req.url === "/sessionOk") {
+        filePath = path.join(__dirname, "sessionOk.html");
+      }
+      else {
+        filePath = path.join(__dirname, req.url);
+      }
 
     // Déterminer le type MIME
     const extname = path.extname(filePath);
