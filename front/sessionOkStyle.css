@@ -7,6 +7,11 @@
       width: 100%;
       background: linear-gradient(to right, #00b3b3, #007bb5); /* Dégradé bleu-vert */
       padding: 60px;
+
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      align-items: start;      
     }
     .card {
       background: white;
@@ -14,6 +19,7 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       display: inline-block;
+      height: 110px;
     }
     .btn {
       margin-top: 1rem;

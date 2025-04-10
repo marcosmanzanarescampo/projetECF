@@ -11,6 +11,7 @@ const userRepository = {
       try {
           const userSearched = await prisma.user.findFirst({
               where: { user_email: email.toLowerCase() },
+              include: { user_badge: true }
             });
             return userSearched;
       }

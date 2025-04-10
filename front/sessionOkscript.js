@@ -4,6 +4,8 @@ function logout() {
 }
 
 const welcomeMessage = document.getElementById('welcome_message');
+const userName = document.getElementById("userName");
+const userBadge = document.getElementById("userBadge")
 const loggedUser = {
   name: localStorage.getItem('loggedUserName'),
   firstName: localStorage.getItem('loggedUserFirstName'),
@@ -11,4 +13,6 @@ const loggedUser = {
   badge: localStorage.getItem('loggedUserBadge')
 };
 
-welcomeMessage.innerText = `Bienvenue(e) ${ loggedUser.name } dans votre space,Vous êtes connecté avec succès.`;
+welcomeMessage.innerText = `Bienvenue(e) dans votre space,Vous êtes connecté avec succès.`;
+userName.innerText =`User ${loggedUser.firstName} ${loggedUser.name}`;
+userBadge.innerText = `Badge ${loggedUser.badge}`;

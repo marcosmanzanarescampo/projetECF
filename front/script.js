@@ -30,14 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json();
 
       if (data.ok) {
-        localStorage.setItem('loggedUserName', data.user.user.user_name);
-        localStorage.setItem('loggedUserFirstName', data.user.user.user_first_name);
-        localStorage.setItem('loggedUserEmail', data.user.user.user_email);
-        localStorage.setItem('loggedUserBadge', data.user.user.user_badge);
 
-        console.log(data.user.user.user_name);
+        console.log(data.user.user);
         
-        window.location.replace('/sessionOk');
+        // localStorage.setItem('loggedUserName', data.user.user.user_name);
+        // localStorage.setItem('loggedUserFirstName', data.user.user.user_first_name);
+        // localStorage.setItem('loggedUserEmail', data.user.user.user_email);
+        // localStorage.setItem('loggedUserBadge', data.user.user.user_badge);
+        // localStorage.setItem('loggedUserBadgeIcon', data.use.user.user_badge.)
+        
+        // window.location.replace('/sessionOk');
       } else {
         welcome.textContent = `Erreur: ${ data.message } `;
       }
