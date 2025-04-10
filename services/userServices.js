@@ -25,9 +25,6 @@ const userServices = {
 
     userRegisterService: async (user) => {
 
-      console.log('userRegisterService');
-      
-
       const user_email = user.email;
       const user_password = user.password;
 

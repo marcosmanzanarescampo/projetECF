@@ -24,7 +24,7 @@ const userController = {
 
   userRegisterController: async (req, res) => {
     try {     
-      console.log("userRegisterController");
+
        
       const user = req.body;
       const result = await userServices.userRegisterService(user);

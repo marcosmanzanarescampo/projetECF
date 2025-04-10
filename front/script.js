@@ -31,8 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (data.ok) {
 
-        console.log(data.user.user);
-        
         localStorage.setItem('loggedUserName', data.user.user.user_name);
         localStorage.setItem('loggedUserFirstName', data.user.user.user_first_name);
         localStorage.setItem('loggedUserEmail', data.user.user.user_email);
@@ -102,8 +100,7 @@ function creerFormulaireInscription() {
         });
  
         const data = await response.json();
-        console.log("data result: " + JSON.stringify(data));        
-
+       
         if (data.ok) {
           localStorage.setItem('loggedUser', data.user);
           window.location.replace('/sessionOk')

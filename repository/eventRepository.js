@@ -7,15 +7,12 @@ import prisma from '../db/db.config.js';
 const eventRepository = {
 
    eventSearchRepository: async () => {
-      try {  
-        console.log('here');
-
+      try { 
           const eventsSearched = await prisma.event.findMany({
           include: {
             createdByUser: true, // Inclut l'utilisateur qui a créé l'événement
             }
           });
-          console.log("Events: " + eventsSearched);
 
           return eventsSearched;
       }
