@@ -75,7 +75,12 @@ const eventServices = {
   eventSearchService: async () => {
     const eventSearched = await eventRepository.eventSearchRepository();
     return { ok: 1, data: eventSearched };
-  }
+  },
+
+  eventSearchLikedService: async (userEmail) => {
+    const eventSearched = await eventRepository.eventSearchLikedRepository(userEmail);
+    return { ok: 1, data: eventSearched };
+  }  
 };
 
 export default eventServices;

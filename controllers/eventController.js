@@ -35,7 +35,24 @@ const eventController = {
     catch(error) {
       res.status(401).json({ error: "Error: (eventRegisterController): " + error.message }); //not authorisation
     }
-  }
+  },
+
+  eventSearchLikedController: async (req, res) => {
+    try {
+      const userEmail = req.params.id;
+      const result = await eventServices.eventSearchLikedService(userEmail);
+
+      if(!result.ok) { //-->no results
+        return res.status(200).json({ ok: 0, message: result.message });
+      }
+
+      // ok
+      return res.status(200).json({ ok: 1, message: "event serch succesfully", data: result.data });
+    }
+    catch(error) {
+      res.status(401).json({ error: "Error: (eventRegisterController): " + error.message }); //not authorisation
+    }
+  }  
 }
 
 export default eventController;

@@ -11,5 +11,6 @@ const router = express.Router();
 // event management
 router.post('/api/event/register/:id', eventController.eventRegisterController); //created by user id
 router.get('/api/event', eventController.eventSearchController);
+router.get('/api/event/liked/:email', eventController.eventSearchLikedController);
 
 export default router;

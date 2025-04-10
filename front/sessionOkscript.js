@@ -3,11 +3,68 @@ function logout() {
   window.location.assign('/');
 }
 
-listEvents();
+function createWelcomeCard(message) {
+  const container = document.getElementById('headerContainer'); // Le conteneur doit exister dans ton HTML
 
-const welcomeMessage = document.getElementById('welcome_message');
-const userName = document.getElementById("userName");
-const userBadge = document.getElementById("userBadge");
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const h3 = document.createElement('h3');
+  h3.id = 'welcome_message';
+  h3.textContent = message;
+
+  card.appendChild(h3);
+  container.appendChild(card);
+};
+
+function createUserInfoCard(username, badgeLabel) {
+  const container = document.getElementById('headerContainer'); // Assure-toi que #container existe
+
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.id = 'userInfo';
+
+  const userName = document.createElement('h5');
+  userName.id = 'userName';
+  userName.innerHTML = '<span style="color: black; font-size: 1rem;">User: </span>' + username;
+
+  const userBadge = document.createElement('h5');
+  userBadge.id = 'userBadge';
+  userBadge.innerHTML = '<span style="color: black; font-size: 1rem;">Badge: </span>' + badgeLabel;
+
+  // icon
+  const icon = document.createElement('p');
+  icon.innerHTML = '🤍'; // Tu peux mettre une icône SVG ou Font Awesome ici
+  icon.style.cursor = 'pointer';
+  icon.style.textAlign  = 'center';
+  icon.title = 'like';
+  icon.addEventListener('click', (e) => {
+    if (e.target.innerHTML === '🤍') {
+      e.target.innerHTML = '❤️';
+      const container = document.getElementById('eventContainer');
+      container.innerHTML = "";
+      // filtrer les evenements
+      listLikedEvents(loggedUser.email);
+    } else {
+      e.target.innerHTML = '🤍';
+      // filtrer les evenements
+    }
+  }); 
+  // icon
+
+  const logoutBtn = document.createElement('button');
+  logoutBtn.className = 'btn';
+  logoutBtn.innerText = 'Se déconnecter';
+  logoutBtn.onclick = logout; // Assure-toi que la fonction logout() existe
+
+  card.appendChild(userName);
+  card.appendChild(userBadge);
+  card.appendChild(icon);
+  card.appendChild(logoutBtn);
+
+  container.appendChild(card);
+}
+
 const loggedUser = {
   name: localStorage.getItem('loggedUserName'),
   firstName: localStorage.getItem('loggedUserFirstName'),
@@ -15,11 +72,7 @@ const loggedUser = {
   badge: localStorage.getItem('loggedUserBadge')
 };
 
-welcomeMessage.innerText = `Bienvenue(e) dans votre space,Vous êtes connecté avec succès.`;
-userName.innerText =`${loggedUser.firstName} ${loggedUser.name}`;
-userBadge.innerText = 'Badge: ';
-userBadge.innerHTML += `<span style="color: red;">${ loggedUser.badge }</span`;
-
+// function qui liste toutes les evenements
 async function listEvents(){
   try {
     
@@ -31,7 +84,29 @@ async function listEvents(){
     });
 
     const data = await response.json();
-    if (data.ok) {     
+    if (data.ok) {
+      for (const event of data.data){
+        createEventCard(event);
+      }
+    }
+  }
+  catch(err) {
+    console.error('Erreur lors de la requête:', err);
+  }
+};
+
+// function qui liste toutes les evenements aimées
+async function listLikedEvents(user){
+  try {    
+    const response = await fetch(`http://localhost:3000/api/event/liked/${ user }`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const data = await response.json();
+    if (data.ok) {
       for (const event of data.data){
         createEventCard(event);
       }
@@ -52,7 +127,7 @@ function createEventCard(event) {
   icon.className = 'heart-icon';
   icon.innerHTML = '🤍'; // Tu peux mettre une icône SVG ou Font Awesome ici
   icon.style.cursor = 'pointer';
-  icon.title = 'Fermer';
+  icon.title = 'like';
   icon.addEventListener('click', (e) => {
     if (e.target.innerHTML === '🤍') {
       e.target.innerHTML = '❤️';
@@ -100,6 +175,12 @@ function createEventCard(event) {
   card.appendChild(cardCreatedBy);
 
   // Ajout de la carte au container
-  const container = document.getElementById('eventContainer'); // Assurez-vous d'avoir un container avec cet ID
+  const container = document.getElementById('eventContainer');
   container.appendChild(card);
-}
+};
+
+
+// Création du site
+createWelcomeCard("Bienvenue(e) dans votre space,Vous êtes connecté avec succès");
+createUserInfoCard(`${loggedUser.firstName} ${loggedUser.name}`, `<span style="color: red;">${ loggedUser.badge }</span>`);
+listEvents();
