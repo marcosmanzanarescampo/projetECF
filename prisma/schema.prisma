@@ -48,19 +48,20 @@ model User {
 
 // Modèle `Event`
 model Event {
-  event_id          Int           @id @default(autoincrement())
-  event_titre       String
-  event_description String
-  event_places      EventTypePlace
+  event_id           Int            @id @default(autoincrement())
+  event_titre        String
+  event_description  String
+  event_city         String
+  event_places       EventTypePlace
   event_places_number Int
-  event_date_hour   DateTime
-  event_created_at  DateTime      @default(now())
-  
-  created_by       Int
-  createdByUser    User           @relation("EventCreatedBy", fields: [created_by], references: [user_id])
+  event_date_hour    DateTime
+  event_created_at   DateTime       @default(now())  
+  event_createdBy    Int            // Clé étrangère vers `User`
 
-  likes            Like[]          @relation("LikeEvent")
-  registrations    Registration[]  @relation("RegistrationEvent")
+  createdByUser      User           @relation("EventCreatedBy", fields: [event_createdBy], references: [user_id]) // Relation vers `User`
+
+  likes              Like[]         @relation("LikeEvent")
+  registrations      Registration[] @relation("RegistrationEvent")
 }
 
 // Modèle `Like`
