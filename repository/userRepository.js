@@ -9,10 +9,16 @@ const userRepository = {
 
    userSearchRepository: async (email) => {
       try {
+        console.log('userSearchRepository');
+        console.log(email);
+        
+        
           const userSearched = await prisma.user.findFirst({
               where: { user_email: email.toLowerCase() },
-              include: { user_badge: true }
             });
+
+            console.log('user: ' + userSearched);
+            
             return userSearched;
       }
       catch(error) {
@@ -22,6 +28,9 @@ const userRepository = {
 
   userCreateRepository: async (body) => {
     try {
+
+      console.log('userCreateRepository');
+      
         const originalPassword = body.password;
         
         const hashedPassword = await bcrypt.hash(originalPassword, 10); //SALT 10

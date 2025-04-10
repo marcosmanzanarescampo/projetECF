@@ -33,13 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log(data.user.user);
         
-        // localStorage.setItem('loggedUserName', data.user.user.user_name);
-        // localStorage.setItem('loggedUserFirstName', data.user.user.user_first_name);
-        // localStorage.setItem('loggedUserEmail', data.user.user.user_email);
-        // localStorage.setItem('loggedUserBadge', data.user.user.user_badge);
-        // localStorage.setItem('loggedUserBadgeIcon', data.use.user.user_badge.)
+        localStorage.setItem('loggedUserName', data.user.user.user_name);
+        localStorage.setItem('loggedUserFirstName', data.user.user.user_first_name);
+        localStorage.setItem('loggedUserEmail', data.user.user.user_email);
+        localStorage.setItem('loggedUserBadge', data.user.user.user_badge);
         
-        // window.location.replace('/sessionOk');
+        window.location.replace('/sessionOk');
       } else {
         welcome.textContent = `Erreur: ${ data.message } `;
       }

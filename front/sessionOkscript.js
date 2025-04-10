@@ -14,5 +14,5 @@ const loggedUser = {
 };
 
 welcomeMessage.innerText = `Bienvenue(e) dans votre space,Vous êtes connecté avec succès.`;
-userName.innerText =`User ${loggedUser.firstName} ${loggedUser.name}`;
-userBadge.innerText = `Badge ${loggedUser.badge}`;
+userName.innerText =`${loggedUser.firstName} ${loggedUser.name}`;
+userBadge.innerText = `Badge: ${loggedUser.badge}`;
