@@ -26,7 +26,6 @@ function validerDateTime(date) {
 const eventServices = {
 
   eventRegisterService: async (event, user) => {
-
     const event_title = event.event_titre;
     const event_description = event.event_description;
     const event_date_hour = event.event_date_hour;
@@ -80,7 +79,12 @@ const eventServices = {
   eventSearchLikedService: async (userEmail) => {
     const eventSearched = await eventRepository.eventSearchLikedRepository(userEmail);
     return { ok: 1, data: eventSearched };
-  }  
+  },
+  
+  eventSearchByCityService: async (city) => {
+    const eventSearched = await eventRepository.eventSearchByCityRepository(city);
+    return { ok: 1, data: eventSearched };
+  }
 };
 
 export default eventServices;

@@ -17,6 +17,37 @@ function createWelcomeCard(message) {
   container.appendChild(card);
 };
 
+function createFiltreCard() {
+  const container = document.getElementById('headerContainer');
+
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const h3 = document.createElement('h3');
+  h3.id = 'filtreCard';
+  h3.textContent = "Filtre par ville";
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.placeholder = 'Entrez votre ville ici';
+  input.className = 'card-input';
+
+  const filterBtn = document.createElement('button');
+  filterBtn.className = 'btn';
+  filterBtn.innerText = 'Filtrer';
+  filterBtn.addEventListener('click', (e) => {
+    const container = document.getElementById('eventContainer');
+    container.innerHTML = "";
+    const ville = input.value;
+    listEventsParVille(ville);
+  })
+
+  card.appendChild(h3);
+  card.appendChild(input);
+  card.appendChild(filterBtn);
+  container.appendChild(card);
+};
+
 function createUserInfoCard(username, badgeLabel) {
   const container = document.getElementById('headerContainer'); // Assure-toi que #container existe
 
@@ -53,7 +84,6 @@ function createUserInfoCard(username, badgeLabel) {
       listEvents();
     }
   }); 
-  // icon
 
   const logoutBtn = document.createElement('button');
   logoutBtn.className = 'btn';
@@ -80,6 +110,28 @@ async function listEvents(){
   try {
     
     const response = await fetch('http://localhost:3000/api/event', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const data = await response.json();
+    if (data.ok) {
+      for (const event of data.data){
+        createEventCard(event.event_id, event.event_titre, event.event_description, event.event_city, event.event_places, event.event_num_places, event.event_data_hour, event.event_created_at, event.createdByUser.user_name, event.createdByUser.user_first_name);
+      }
+    }
+  }
+  catch(err) {
+    console.error('Erreur lors de la requête:', err);
+  }
+};
+
+async function listEventsParVille(ville){
+  try {
+    
+    const response = await fetch(`http://localhost:3000/api/event/city/${ ville }`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -190,4 +242,5 @@ function createEventCard(id, titre, description, city, places, numPlaces, dataHo
 // Création du site
 createWelcomeCard("Bienvenue(e) dans votre space,Vous êtes connecté avec succès");
 createUserInfoCard(`${loggedUser.firstName} ${loggedUser.name}`, `<span style="color: red;">${ loggedUser.badge }</span>`);
+createFiltreCard()
 listEvents();

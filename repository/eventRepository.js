@@ -23,11 +23,17 @@ const eventRepository = {
 
   eventSearchByCityRepository: async (city) => {
     try {
-        const eventSearched = await prisma.event.find( {
-            where: { event_city: city },
-            include: { event_createdBy: true } // Inclut l'utilisateur qui a créé l'événement
-        });
-        return eventSearched;
+        console.log('City: ' + city);
+        const eventsSearched = await prisma.event.findMany({
+          where: { event_city: city},
+          include: {
+            createdByUser: true, // Inclut l'utilisateur qui a créé l'événement
+            }
+          });
+
+        console.log("Events à Paris: " + JSON.stringify(eventsSearched));
+
+        return eventsSearched;
     }
     catch(error) {
         throw "(eventSearchByCityRepositoiry) Error: erreur interne: " + error;
