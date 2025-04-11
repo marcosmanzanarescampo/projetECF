@@ -44,7 +44,6 @@ function newEventCard(badge) {
 
   newEventrBtn.addEventListener('click', (e) => {
     creerFormulaireEvenement();
-    // console.log('Créer formulaire');
     
   });
 
@@ -416,7 +415,13 @@ function creerFormulaireEvenement() {
       } else {
         message.style.color = 'red';
         message.textContent = `Erreur : ${data.message}`;
-      }
+      };
+      // on remontre la liste de resultas:
+      const eventContainer = document.getElementById('eventContainer');
+      const formContainer = document.getElementById('formContainer');
+      eventContainer.innerHTML = "";
+      formContainer.innerHTML = "";
+      listEvents();
     } catch (err) {
       console.error('Erreur lors de la requête :', err);
       message.style.color = 'red';
