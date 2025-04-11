@@ -1,3 +1,8 @@
+// import { userController } from '../controllers/userController.js';
+// // on lance la mise à jour des badges (upgrade):
+// userController.user
+
+
 const container = document.getElementById('form-container');
 const welcome = document.getElementById('welcome');
 

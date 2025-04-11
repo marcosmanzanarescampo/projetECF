@@ -91,6 +91,10 @@ const userServices = {
       // bonus:
       const token = jwt.sign(payload, secret, { expiresIn: '1h' });  //token expires en 1 heure!
       return { ok: 1, user: userSearched, token: token };
+    },
+
+    userUpgradeService: async () => {
+      await userRepository.userUpgradeRepository();
     }
 };
 
