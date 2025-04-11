@@ -31,7 +31,7 @@ const eventServices = {
     const event_date_hour = event.event_date_hour;
     const event_city = event.event_city;
     const event_places = event.event_places;
-    const event_places_number = event.event_places_number;
+    const event_places_number = parseInt(event.event_places_number);
 
     // start of data validation
     const titleIsOk = validerText(event_title);      
@@ -58,10 +58,14 @@ const eventServices = {
     };
     if (!placesNumberIsOk) {
       return { ok: 0, message: "invalid event places number" };
+    }
+    else {
+      event.event_places_number = event_places_number;
     };
 
+
     if (!dateTimeIsOk) {
-      return { ok: 0, message: "invalid event sdate/time" };
+      return { ok: 0, message: "invalid event date/time" };
     };
 
     // end of data validation

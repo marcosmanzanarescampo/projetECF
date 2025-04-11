@@ -17,6 +17,44 @@ function createWelcomeCard(message) {
   container.appendChild(card);
 };
 
+function newEventCard(badge) {
+
+  //seulement les utilisateurs avec ce badge peuvent créer des évenements
+  const container = document.getElementById('headerContainer'); // Le conteneur doit exister dans ton HTML
+
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const h31 = document.createElement('h3');
+  h31.id = 'creationEvenement';
+  h31.textContent = "Création des evenements";
+
+  const h32 = document.createElement('h3');
+  h32.id = 'userBage';
+  h32.innerHTML = `User badge: ${ badge }`;
+
+  const newEventrBtn = document.createElement('button');
+  newEventrBtn.className = 'btn';
+  newEventrBtn.innerText = 'Créer';
+
+  if (badge !== "advanced") {
+    newEventrBtn.disabled = true;
+    newEventrBtn.style.backgroundColor = "red";
+  };
+
+  newEventrBtn.addEventListener('click', (e) => {
+    creerFormulaireEvenement();
+    // console.log('Créer formulaire');
+    
+  });
+
+  card.appendChild(h31);
+  card.appendChild(h32);
+  card.appendChild(newEventrBtn);
+
+  container.appendChild(card);
+};
+
 function createFiltreCard() {
   const container = document.getElementById('headerContainer');
 
@@ -40,7 +78,7 @@ function createFiltreCard() {
     container.innerHTML = "";
     const ville = input.value;
     listEventsParVille(ville);
-  })
+  });
 
   card.appendChild(h3);
   card.appendChild(input);
@@ -130,8 +168,7 @@ async function listEvents(){
 };
 
 async function listEventsParVille(ville){
-  try {
-    
+  try {    
     const response = await fetch(`http://localhost:3000/api/event/city/${ ville }`, {
       method: 'GET',
       headers: {
@@ -164,18 +201,14 @@ async function listLikedEvents(email){
     const data = await response.json();
 
     if (data.ok) {
-
-     
-
       const container = document.getElementById('eventContainer');
       container.innerHTML = ""; // On efface les anciens événements
 
       for (const event of data.data) {
         // Crée les cartes d'événements à partir des données
-        // console.log('Like: ' + JSON.stringify(event.userUser)); 
         createEventCard(event.eventEvent.event_id, event.eventEvent.event_titre, event.eventEvent.event_description, event.eventEvent.event_city, event.eventEvent.event_places, event.eventEvent.event_num_places, event.eventEvent.event_data_hour, event.eventEvent.event_created_at, event.userUser.user_name, event.userUser.user_first_name);
       }
-    }
+    };
   } catch(err) {
     console.error('Erreur lors de la requête:', err);
   }
@@ -195,14 +228,6 @@ async function enregistrerLike(user, event){
         event: event
       })
     });
-
-    const data = await response.json();
-
-    // if (data.ok) {
-    //   for (const event of data.data){
-    //     createEventCard(event.eventEvent.event_id, event.eventEvent.event_titre, event.eventEvent.event_description, event.eventEvent.event_city, event.eventEvent.event_places, event.eventEvent.event_num_places, event.eventEvent.event_data_hour, event.eventEvent.event_created_at, event.userUser.user_name, event.userUser.user_first_name);
-    //   }
-    // }
   }
   catch(err) {
     console.error('Erreur lors de la requête:', err);
@@ -276,8 +301,137 @@ function createEventCard(id, titre, description, city, places, numPlaces, dataHo
 };
 
 
+function creerFormulaireEvenement() {
+
+  const container = document.getElementById('formContainer');
+  container.innerHTML = "";
+
+  const form = document.createElement('form');
+  form.id = 'eventForm';
+  form.className = "card";
+
+  const formTitle = document.createElement('label');
+  formTitle.innerHTML = "<span style='color: red'>New Event :</span>";
+
+  form.appendChild(formTitle);
+
+  function creerChamp(labelText, inputType, inputId, inputName, isRequired = true) {
+    const div = document.createElement('div');
+    div.className = 'form-group';
+
+    const label = document.createElement('label');
+    label.textContent = labelText;
+    label.setAttribute('for', inputId);
+
+    const input = document.createElement('input');
+    input.type = inputType;
+    input.id = inputId;
+    input.name = inputName;
+    input.required = isRequired;
+
+    div.appendChild(label);
+    div.appendChild(input);
+
+    return div;
+  };
+
+  // Champs texte
+  form.appendChild(creerChamp('Titre :', 'text', 'titre', 'event_titre'));
+  form.appendChild(creerChamp('Description :', 'text', 'description', 'event_description'));
+  form.appendChild(creerChamp('Ville :', 'text', 'city', 'event_city'));
+
+  // Select "places"
+  const placesDiv = document.createElement('div');
+  placesDiv.className = 'form-group';
+
+  const labelPlaces = document.createElement('label');
+  labelPlaces.textContent = 'Places :';
+  labelPlaces.setAttribute('for', 'places');
+
+  const selectPlaces = document.createElement('select');
+  selectPlaces.id = 'places';
+  selectPlaces.name = 'event_places';
+  selectPlaces.required = true;
+
+  const optionLimit = document.createElement('option');
+  optionLimit.value = 'limit';
+  optionLimit.textContent = 'Limité';
+
+  const optionNoLimit = document.createElement('option');
+  optionNoLimit.value = 'no_limit';
+  optionNoLimit.textContent = 'Illimité';
+
+  selectPlaces.appendChild(optionLimit);
+  selectPlaces.appendChild(optionNoLimit);
+  placesDiv.appendChild(labelPlaces);
+  placesDiv.appendChild(selectPlaces);
+
+  form.appendChild(placesDiv);
+
+  // places_number (optionnel si "no_limit")
+  form.appendChild(creerChamp('Nombre de places :', 'number', 'places_number', 'event_places_number', false));
+
+  // Date et heure
+  form.appendChild(creerChamp('Date et heure :', 'datetime-local', 'date_hour', 'event_date_hour'));
+
+  // Créateur (récupéré depuis localStorage)
+    const eventCreatedBy = localStorage.getItem('loggedUserId');
+    
+    // Message d'erreur / succès
+    const message = document.createElement('p');
+    message.id = 'eventMessage';
+    form.appendChild(message);
+
+    // Bouton
+    const bouton = document.createElement('button');
+    bouton.type = 'submit';
+    bouton.className = 'btn';
+    bouton.textContent = 'Créer Événement';
+    form.appendChild(bouton);
+
+  // Soumission
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    try {
+      const formData = new FormData(form);
+      const dataForm = Object.fromEntries(formData.entries());
+
+      // Ajout du créateur
+      dataForm.event_createdBy = eventCreatedBy;
+
+      const response = await fetch(`http://localhost:3000/api/event/register/${loggedUser.id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataForm)
+      });
+
+      const data = await response.json();
+      if (data.ok) {
+        message.style.color = 'green';
+        message.textContent = 'Événement créé avec succès !';
+        form.reset();
+      } else {
+        message.style.color = 'red';
+        message.textContent = `Erreur : ${data.message}`;
+      }
+    } catch (err) {
+      console.error('Erreur lors de la requête :', err);
+      message.style.color = 'red';
+      message.textContent = 'Une erreur est survenue.';
+    }
+  });
+
+  container.appendChild(form);
+};
+
+
+
 // Création du site
 createWelcomeCard("Bienvenue(e) dans votre space,Vous êtes connecté avec succès");
 createUserInfoCard(`${loggedUser.firstName} ${loggedUser.name}`, `<span style="color: red;">${ loggedUser.badge }</span>`);
-createFiltreCard()
+createFiltreCard();
+newEventCard("advanced");// loggedUser.badge
 listEvents();

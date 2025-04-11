@@ -48,7 +48,7 @@ const eventRepository = {
               event_description: body.event_description,
               event_city: body.event_city,
               event_places: body.event_places,
-              event_places_number: body.event_places_number,
+              event_places_number: parseInt(body.event_places_number),
               event_date_hour: body.event_date_hour,
               event_createdBy: user
             }
