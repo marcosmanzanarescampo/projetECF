@@ -41,7 +41,9 @@ const eventRepository = {
   },
 
   eventCreateRepository: async (body, user) => {
-    try {          
+    try {   
+      console.log("guardando time..." + body.event_date_hour);
+             
         const eventCreated = await prisma.event.create({
             data: {
               event_titre: body.event_titre,
@@ -49,10 +51,11 @@ const eventRepository = {
               event_city: body.event_city,
               event_places: body.event_places,
               event_places_number: parseInt(body.event_places_number),
-              event_date_hour: body.event_date_hour,
+              event_date_hour: new Date(body.event_date_hour),
               event_createdBy: user
             }
           });
+        console.log("evento guardado: " + JSON.stringify(eventCreated));
         return eventCreated;
     }
     catch(error) {

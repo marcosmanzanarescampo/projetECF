@@ -5,8 +5,6 @@ const eventController = {
   eventRegisterController: async (req, res) => {
     try {
 
-      console.log('Creando registro');
-      
       const event = req.body;
       const userId = parseInt(req.params.id);
     
