@@ -5,7 +5,12 @@ const likeServices = {
   likeSearchService: async () => {
     const likeSearched = await likeRepository.likeSearchRepository();
     return { ok: 1, data: likeSearched };
-  }
+  },
+
+  likeEmailSearchService: async (email) => {
+    const likeSearched = await likeRepository.likeEmailSearchRepository(email);
+    return { ok: 1, data: likeSearched };
+  }  
 };
 
 export default likeServices;

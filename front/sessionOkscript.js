@@ -48,6 +48,9 @@ function createUserInfoCard(username, badgeLabel) {
     } else {
       e.target.innerHTML = '🤍';
       // filtrer les evenements
+      const container = document.getElementById('eventContainer');
+      container.innerHTML = "";
+      listEvents();
     }
   }); 
   // icon
@@ -86,7 +89,7 @@ async function listEvents(){
     const data = await response.json();
     if (data.ok) {
       for (const event of data.data){
-        createEventCard(event);
+        createEventCard(event.event_id, event.event_titre, event.event_description, event.event_city, event.event_places, event.event_num_places, event.event_data_hour, event.event_created_at, event.createdByUser.user_name, event.createdByUser.user_first_name);
       }
     }
   }
@@ -96,9 +99,10 @@ async function listEvents(){
 };
 
 // function qui liste toutes les evenements aimées
-async function listLikedEvents(user){
-  try {    
-    const response = await fetch(`http://localhost:3000/api/event/liked/${ user }`, {
+async function listLikedEvents(email){
+  try {
+    
+    const response = await fetch(`http://localhost:3000/api/like/${ email }`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -106,9 +110,12 @@ async function listLikedEvents(user){
     });
 
     const data = await response.json();
+
     if (data.ok) {
       for (const event of data.data){
-        createEventCard(event);
+        // console.log('liked event: ' + JSON.stringify(event));        
+        // console.log("*****like event-user: " + JSON.stringify(event.userUser.user_name));
+        createEventCard(event.eventEvent.event_id, event.eventEvent.event_titre, event.eventEvent.event_description, event.eventEvent.event_city, event.eventEvent.event_places, event.eventEvent.event_num_places, event.eventEvent.event_data_hour, event.eventEvent.event_created_at, event.userUser.user_name, event.userUser.user_first_name);
       }
     }
   }
@@ -117,10 +124,10 @@ async function listLikedEvents(user){
   }
 };
 
-function createEventCard(event) {
+function createEventCard(id, titre, description, city, places, numPlaces, dataHour, createdAt, userName, userFirstName) {
   const card = document.createElement('div');
   card.className = 'Eventcard';
-  card.id = `event_${event.event_id}`;
+  card.id = `event_${ id }`;
 
   // Icône flottante (par exemple une croix pour fermer ou autre)
   const icon = document.createElement('span');
@@ -138,31 +145,31 @@ function createEventCard(event) {
 
   // Titre de l'evenement
   const cardTitle = document.createElement('p');
-  cardTitle.innerHTML = `<span style="color: black; font-size: 2rem;">Titre:</span> <span style="color: green; font-size: 1.6rem;">${event.event_titre}</span>`;
+  cardTitle.innerHTML = `<span style="color: black; font-size: 2rem;">Titre:</span> <span style="color: green; font-size: 1.6rem;">${ titre }</span>`;
 
   // Description de l'venement
   const cardDescription = document.createElement('p');
-  cardDescription.innerHTML = `<span style="color: black; font-size: 1.5rem;">Description:</span> ${event.event_description}`;
+  cardDescription.innerHTML = `<span style="color: black; font-size: 1.5rem;">Description:</span> ${ description }`;
 
   // ville de l'evenement
   const cardCity = document.createElement('p');
-  cardCity.innerHTML = `<span style="color: black; font-size: 1.5rem;">Ville:</span> ${event.event_city}`;
+  cardCity.innerHTML = `<span style="color: black; font-size: 1.5rem;">Ville:</span> ${ city }`;
 
   // type de places de l'evenement
   const cardPlaces = document.createElement('p');
-  cardPlaces.innerHTML = `<span style="color: black; font-size: 1.5rem;">Type de places:</span> ${event.event_places}`;
+  cardPlaces.innerHTML = `<span style="color: black; font-size: 1.5rem;">Type de places:</span> ${ places }`;
 
   // Nombre de places de l'evenement
   const cardPlacesNumber = document.createElement('p');
-  cardPlacesNumber.innerHTML = `<span style="color: black; font-size: 1.5rem;">Nombre de places:</span> ${event.event_places_number}`;
+  cardPlacesNumber.innerHTML = `<span style="color: black; font-size: 1.5rem;">Nombre de places:</span> ${ numPlaces }`;
 
   // Date/Heure de l'evenement
   const cardDateHour = document.createElement('p');
-  cardDateHour.innerHTML = `<span style="color: black; font-size: 1.5rem;">Date et heure:</span> ${event.event_date_hour}`;
+  cardDateHour.innerHTML = `<span style="color: black; font-size: 1.5rem;">Date et heure:</span> ${ dataHour }`;
 
   // Données créateur de l'evenement
   const cardCreatedBy = document.createElement('p');
-  cardCreatedBy.innerHTML = `<span style="color: black; font-size: 1.5rem;">Créated by:</span> ${event.createdByUser.user_first_name} ${event.createdByUser.user_name} (${event.event_created_at})`;
+  cardCreatedBy.innerHTML = `<span style="color: black; font-size: 1.5rem;">Créated by:</span> ${ userFirstName } ${ userName } (${ createdAt })`;
 
   // Ajout des éléments à la carte
   card.appendChild(icon);

@@ -11,4 +11,7 @@ const router = express.Router();
 // event management
 router.get('/api/like', likeController.likeSearchController);
 
+// like management
+router.get('/api/like/:id', likeController.likeEmailSearchController);
+
 export default router;
