@@ -13,5 +13,7 @@ router.get('/api/like', likeController.likeSearchController);
 
 // like management
 router.get('/api/like/:id', likeController.likeEmailSearchController);
+router.post('/api/like', likeController.likeCreateController);
+
 
 export default router;

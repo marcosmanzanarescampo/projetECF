@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json();
 
       if (data.ok) {
-
+        localStorage.setItem('loggedUserId', data.user.user.user_id);
         localStorage.setItem('loggedUserName', data.user.user.user_name);
         localStorage.setItem('loggedUserFirstName', data.user.user.user_first_name);
         localStorage.setItem('loggedUserEmail', data.user.user.user_email);

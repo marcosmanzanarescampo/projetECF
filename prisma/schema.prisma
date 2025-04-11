@@ -69,7 +69,7 @@ model Like {
   user            Int
   event           Int
   like_created_at DateTime @default(now())
-  type            LikeType
+  type            LikeType @default(heart)
 
   userUser        User    @relation("LikeUser", fields: [user], references: [user_id])
   eventEvent      Event   @relation("LikeEvent", fields: [event], references: [event_id])

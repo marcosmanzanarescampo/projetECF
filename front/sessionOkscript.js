@@ -88,7 +88,7 @@ function createUserInfoCard(username, badgeLabel) {
   const logoutBtn = document.createElement('button');
   logoutBtn.className = 'btn';
   logoutBtn.innerText = 'Se déconnecter';
-  logoutBtn.onclick = logout; // Assure-toi que la fonction logout() existe
+  logoutBtn.onclick = logout;
 
   card.appendChild(userName);
   card.appendChild(userBadge);
@@ -99,6 +99,7 @@ function createUserInfoCard(username, badgeLabel) {
 }
 
 const loggedUser = {
+  id: localStorage.getItem('loggedUserId'),
   name: localStorage.getItem('loggedUserName'),
   firstName: localStorage.getItem('loggedUserFirstName'),
   email: localStorage.getItem('loggedUserEmail'),
@@ -153,7 +154,6 @@ async function listEventsParVille(ville){
 // function qui liste toutes les evenements aimées
 async function listLikedEvents(email){
   try {
-    
     const response = await fetch(`http://localhost:3000/api/like/${ email }`, {
       method: 'GET',
       headers: {
@@ -164,12 +164,45 @@ async function listLikedEvents(email){
     const data = await response.json();
 
     if (data.ok) {
-      for (const event of data.data){
-        // console.log('liked event: ' + JSON.stringify(event));        
-        // console.log("*****like event-user: " + JSON.stringify(event.userUser.user_name));
+
+     
+
+      const container = document.getElementById('eventContainer');
+      container.innerHTML = ""; // On efface les anciens événements
+
+      for (const event of data.data) {
+        // Crée les cartes d'événements à partir des données
+        // console.log('Like: ' + JSON.stringify(event.userUser)); 
         createEventCard(event.eventEvent.event_id, event.eventEvent.event_titre, event.eventEvent.event_description, event.eventEvent.event_city, event.eventEvent.event_places, event.eventEvent.event_num_places, event.eventEvent.event_data_hour, event.eventEvent.event_created_at, event.userUser.user_name, event.userUser.user_first_name);
       }
     }
+  } catch(err) {
+    console.error('Erreur lors de la requête:', err);
+  }
+}
+
+
+// function qui enregistre toutes les evenements aimées
+async function enregistrerLike(user, event){
+  try {
+    const response = await fetch(`http://localhost:3000/api/like`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user: user,
+        event: event
+      })
+    });
+
+    const data = await response.json();
+
+    // if (data.ok) {
+    //   for (const event of data.data){
+    //     createEventCard(event.eventEvent.event_id, event.eventEvent.event_titre, event.eventEvent.event_description, event.eventEvent.event_city, event.eventEvent.event_places, event.eventEvent.event_num_places, event.eventEvent.event_data_hour, event.eventEvent.event_created_at, event.userUser.user_name, event.userUser.user_first_name);
+    //   }
+    // }
   }
   catch(err) {
     console.error('Erreur lors de la requête:', err);
@@ -184,12 +217,16 @@ function createEventCard(id, titre, description, city, places, numPlaces, dataHo
   // Icône flottante (par exemple une croix pour fermer ou autre)
   const icon = document.createElement('span');
   icon.className = 'heart-icon';
-  icon.innerHTML = '🤍'; // Tu peux mettre une icône SVG ou Font Awesome ici
+  icon.innerHTML = '🤍'; 
   icon.style.cursor = 'pointer';
   icon.title = 'like';
   icon.addEventListener('click', (e) => {
     if (e.target.innerHTML === '🤍') {
       e.target.innerHTML = '❤️';
+      // enregistrer le like
+
+      enregistrerLike(loggedUser.id, id);
+
     } else {
       e.target.innerHTML = '🤍';
     }

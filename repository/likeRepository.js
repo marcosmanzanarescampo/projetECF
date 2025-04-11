@@ -34,6 +34,22 @@ const likeRepository = {
     }
   },
 
+  likeCreateRepository: async (user, event) => {
+    try {
+        console.log("user: " + user + " event: " + event);
+
+        const like = await prisma.like.create({
+            data: {
+              user: parseInt(user),
+              event: parseInt(event)
+            }
+          });
+        return like;
+    }
+    catch(error) {
+        throw "(likeCreateRepository) Error: erreur interne: " + error;
+    }
+  }
 };
 
 export default likeRepository;
